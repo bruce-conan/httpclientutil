@@ -35,52 +35,52 @@ public class HttpClientTest {
 
 		System.out.println("请求结果内容长度："+ resp.length());
 		
-		System.out.println("\n#################################\n");
-		
-		System.out.println("--------加入header设置--------");
-		url="http://blog.csdn.net/xiaoxian8023";
-		//设置header信息
-		Header[] headers=HttpHeader.custom().userAgent("Mozilla/5.0").build();
-		//执行请求
-		resp = HttpClientUtil.get(config.headers(headers));
-		System.out.println("请求结果内容长度："+ resp.length());
-
-		System.out.println("\n#################################\n");
-		
-		System.out.println("--------代理设置（绕过证书验证）-------");
-		url="https://www.facebook.com/";
-		HttpClient client= HCB.custom().timeout(10000).proxy("127.0.0.1", 8087).ssl().build();//采用默认方式（绕过证书验证）
-		//执行请求
-		resp = HttpClientUtil.get(config.client(client));
-		System.out.println("请求结果内容长度："+ resp.length());
-
-		System.out.println("\n#################################\n");
-
-//		System.out.println("--------代理设置（自签名证书验证）+header+get方式-------");
-//		url = "https://sso.tgb.com:8443/cas/login";
-//		client= HCB.custom().timeout(10000).ssl("D:\\keys\\wsriakey","tomcat").build();
-//		headers=HttpHeader.custom().keepAlive("false").connection("close").contentType(Headers.APP_FORM_URLENCODED).build();
+//		System.out.println("\n#################################\n");
+//
+//		System.out.println("--------加入header设置--------");
+//		url="http://blog.csdn.net/xiaoxian8023";
+//		//设置header信息
+//		Header[] headers=HttpHeader.custom().userAgent("Mozilla/5.0").build();
 //		//执行请求
-//		resp = CopyOfHttpClientUtil.get(config.method(HttpMethods.GET));
+//		resp = HttpClientUtil.get(config.headers(headers));
 //		System.out.println("请求结果内容长度："+ resp.length());
-		try {
-			System.out.println("--------下载测试-------");
-			url="http://ss.bdimg.com/static/superman/img/logo/logo_white_fe6da1ec.png";
-			FileOutputStream out = new FileOutputStream(new File("d://aaa//000.png"));
-			HttpClientUtil.down(HttpConfig.custom().url(url).out(out));
-			out.flush();
-			out.close();
-			System.out.println("--------下载测试+代理-------");
-			
-			out = new FileOutputStream(new File("d://aaa//001.png"));
-			HttpClientUtil.down(HttpConfig.custom().client(client).url(url).out(out));
-			out.flush();
-			out.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		System.out.println("\n#################################\n");
+//
+//		System.out.println("\n#################################\n");
+//
+//		System.out.println("--------代理设置（绕过证书验证）-------");
+//		url="https://www.facebook.com/";
+//		HttpClient client= HCB.custom().timeout(10000).proxy("127.0.0.1", 8087).ssl().build();//采用默认方式（绕过证书验证）
+//		//执行请求
+//		resp = HttpClientUtil.get(config.client(client));
+//		System.out.println("请求结果内容长度："+ resp.length());
+//
+//		System.out.println("\n#################################\n");
+//
+////		System.out.println("--------代理设置（自签名证书验证）+header+get方式-------");
+////		url = "https://sso.tgb.com:8443/cas/login";
+////		client= HCB.custom().timeout(10000).ssl("D:\\keys\\wsriakey","tomcat").build();
+////		headers=HttpHeader.custom().keepAlive("false").connection("close").contentType(Headers.APP_FORM_URLENCODED).build();
+////		//执行请求
+////		resp = CopyOfHttpClientUtil.get(config.method(HttpMethods.GET));
+////		System.out.println("请求结果内容长度："+ resp.length());
+//		try {
+//			System.out.println("--------下载测试-------");
+//			url="http://ss.bdimg.com/static/superman/img/logo/logo_white_fe6da1ec.png";
+//			FileOutputStream out = new FileOutputStream(new File("d://aaa//000.png"));
+//			HttpClientUtil.down(HttpConfig.custom().url(url).out(out));
+//			out.flush();
+//			out.close();
+//			System.out.println("--------下载测试+代理-------");
+//
+//			out = new FileOutputStream(new File("d://aaa//001.png"));
+//			HttpClientUtil.down(HttpConfig.custom().client(client).url(url).out(out));
+//			out.flush();
+//			out.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//
+//		System.out.println("\n#################################\n");
 	}
 	
 	
@@ -188,11 +188,8 @@ public class HttpClientTest {
 	    }  
 	
 	public static void main(String[] args) throws Exception {
-		File file = new File("d://aaa");
-		if(!file.exists() && file.isDirectory()){
-			file.mkdir();
-		}
-//		testOne();
-		testMutilTask();
+
+		testOne();
+//		testMutilTask();
 	}
 }
