@@ -37,11 +37,12 @@ public class HttpClientWrapper {
 
 	//默认采用的https协议的HttpClient对象
 	private static HttpClient client4HTTPS;
+	private static int DEFAULT_TIMEOUT = 10000;
 
 	static {
 		try {
-			client4HTTP = HCB.custom().build();
-			client4HTTPS = HCB.custom().ssl().build();
+			client4HTTP = HCB.custom().timeout(DEFAULT_TIMEOUT).build();
+			client4HTTPS = HCB.custom().timeout(DEFAULT_TIMEOUT).ssl().build();
 		} catch (HttpProcessException e) {
 			Utils.errorException("创建https协议的HttpClient对象出错：{}", e);
 		}
@@ -80,8 +81,8 @@ public class HttpClientWrapper {
 	 * @return 返回处理结果
 	 * @throws HttpProcessException    http处理异常
 	 */
-	public static ResponseResult get(HttpClient client, String url, Header[] headers, HttpContext context, String encoding)
-			throws HttpProcessException {
+	public static ResponseResult get(HttpClient client, String url, Header[] headers, HttpContext context,
+			String encoding) throws HttpProcessException {
 		return get(HttpConfig.custom().client(client).url(url).headers(headers).context(context).encoding(encoding));
 	}
 
@@ -165,8 +166,8 @@ public class HttpClientWrapper {
 	 * @return 返回处理结果
 	 * @throws HttpProcessException    http处理异常
 	 */
-	public static ResponseResult delete(HttpClient client, String url, Header[] headers, HttpContext context, String encoding)
-			throws HttpProcessException {
+	public static ResponseResult delete(HttpClient client, String url, Header[] headers, HttpContext context,
+			String encoding) throws HttpProcessException {
 		return delete(HttpConfig.custom().client(client).url(url).headers(headers).context(context).encoding(encoding));
 	}
 
@@ -221,8 +222,8 @@ public class HttpClientWrapper {
 	 * @return 返回处理结果
 	 * @throws HttpProcessException    http处理异常
 	 */
-	public static ResponseResult head(HttpClient client, String url, Header[] headers, HttpContext context, String encoding)
-			throws HttpProcessException {
+	public static ResponseResult head(HttpClient client, String url, Header[] headers, HttpContext context,
+			String encoding) throws HttpProcessException {
 		return head(HttpConfig.custom().client(client).url(url).headers(headers).context(context).encoding(encoding));
 	}
 
@@ -248,8 +249,8 @@ public class HttpClientWrapper {
 	 * @return 返回处理结果
 	 * @throws HttpProcessException    http处理异常
 	 */
-	public static ResponseResult options(HttpClient client, String url, Header[] headers, HttpContext context, String encoding)
-			throws HttpProcessException {
+	public static ResponseResult options(HttpClient client, String url, Header[] headers, HttpContext context,
+			String encoding) throws HttpProcessException {
 		return options(
 				HttpConfig.custom().client(client).url(url).headers(headers).context(context).encoding(encoding));
 	}
@@ -276,8 +277,8 @@ public class HttpClientWrapper {
 	 * @return 返回处理结果
 	 * @throws HttpProcessException    http处理异常
 	 */
-	public static ResponseResult trace(HttpClient client, String url, Header[] headers, HttpContext context, String encoding)
-			throws HttpProcessException {
+	public static ResponseResult trace(HttpClient client, String url, Header[] headers, HttpContext context,
+			String encoding) throws HttpProcessException {
 		return trace(HttpConfig.custom().client(client).url(url).headers(headers).context(context).encoding(encoding));
 	}
 
@@ -456,33 +457,33 @@ public class HttpClientWrapper {
 	//-----------华----丽----分----割----线--------------
 	//-----------华----丽----分----割----线--------------
 
-//	/**
-//	 * 转化为字符串
-//	 *
-//	 * @param resp            响应对象
-//	 * @param encoding        编码
-//	 * @return 返回处理结果
-//	 * @throws HttpProcessException    http处理异常
-//	 */
-//	private static String fmt2String(HttpResponse resp, String encoding) throws HttpProcessException {
-//		String body = "";
-//		try {
-//			if (resp.getEntity() != null) {
-//				System.out.println("statusCode:" + resp.getStatusLine().getStatusCode());
-//				// 按指定编码转换结果实体为String类型
-//				body = EntityUtils.toString(resp.getEntity(), encoding);
-//				Utils.info(body);
-//			} else {//有可能是head请求
-//				body = resp.getStatusLine().toString();
-//			}
-//			EntityUtils.consume(resp.getEntity());
-//		} catch (IOException e) {
-//			throw new HttpProcessException(e);
-//		} finally {
-//			close(resp);
-//		}
-//		return body;
-//	}
+	//	/**
+	//	 * 转化为字符串
+	//	 *
+	//	 * @param resp            响应对象
+	//	 * @param encoding        编码
+	//	 * @return 返回处理结果
+	//	 * @throws HttpProcessException    http处理异常
+	//	 */
+	//	private static String fmt2String(HttpResponse resp, String encoding) throws HttpProcessException {
+	//		String body = "";
+	//		try {
+	//			if (resp.getEntity() != null) {
+	//				System.out.println("statusCode:" + resp.getStatusLine().getStatusCode());
+	//				// 按指定编码转换结果实体为String类型
+	//				body = EntityUtils.toString(resp.getEntity(), encoding);
+	//				Utils.info(body);
+	//			} else {//有可能是head请求
+	//				body = resp.getStatusLine().toString();
+	//			}
+	//			EntityUtils.consume(resp.getEntity());
+	//		} catch (IOException e) {
+	//			throw new HttpProcessException(e);
+	//		} finally {
+	//			close(resp);
+	//		}
+	//		return body;
+	//	}
 
 	/**
 	 * 转化为字符串
@@ -493,16 +494,16 @@ public class HttpClientWrapper {
 	 * @throws HttpProcessException    http处理异常
 	 */
 	private static ResponseResult buildResponse(HttpResponse resp, String encoding) throws HttpProcessException {
-//		String body = "";
+		//		String body = "";
 		ResponseResult responseResult = new ResponseResult();
-		try{
+		try {
 			if (resp.getEntity() != null) {
 				responseResult.setStatus(resp.getStatusLine().getStatusCode());
 				HttpEntity entity = resp.getEntity();
 				Header contentEncodingHeader = entity.getContentEncoding();
 
 				if (contentEncodingHeader != null) {
-					HeaderElement[] encodings =contentEncodingHeader.getElements();
+					HeaderElement[] encodings = contentEncodingHeader.getElements();
 					for (int i = 0; i < encodings.length; i++) {
 						if (encodings[i].getName().equalsIgnoreCase("gzip")) {
 							entity = new GzipDecompressingEntity(entity);
